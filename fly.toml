@@ -1,0 +1,27 @@
+# fly.toml app configuration file generated for nocodb-server on 2023-04-24T22:34:11+07:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "nocodb-server"
+primary_region = "sin"
+
+[env]
+  DB_REPLICA_URL = "s3://sqlite-snapshot/nocodb"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = false
+  [http_service.concurrency]
+    type = "requests"
+    hard_limit = 250
+    soft_limit = 200
+
+[checks]
+  [checks.alive]
+    type = "tcp"
+    interval = "15s"
+    timeout = "2s"
+    grace_period = "5s"
